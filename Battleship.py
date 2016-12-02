@@ -13,6 +13,9 @@ Can you check all elements of a for loop without making a list?
 getGuess in player
 Debugging
 
+
+# delete this comment later
+
 Immediate to do list:
     [x]finish ship placement
         Replace making a list of possible directions with choosing a random direction and seeing if it works 
