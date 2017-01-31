@@ -1,17 +1,6 @@
 '''Battleship 11/12/16
 
-0,0    1,0    2,0    3,0
-
-0,1    1,1    2,1    3,1
-
-0,2    1,2    2,2    3,2
-
-0,3    1,3    2,3    3,3
-
-What's the best way to check all the object attributes and see if one is false?
-Can you check all elements of a for loop without making a list?
-getGuess in player
-Debugging
+Joshua Baker
 '''
 import random
 
@@ -153,7 +142,7 @@ class Gameboard(object):
         for j in range(length):
             fullList.append(x)'''
 
-        fullList = [[0 for j in range(length)] for i in range(width)]
+        fullList = [[0 for j in range(width)] for i in range(length)]
         
         return fullList
 
@@ -171,7 +160,7 @@ class Gameboard(object):
         self.shipList.append(self.destroyer)'''
 
 
-    def checkPoint(self, point): # maybe rename?
+    def checkPoint(self, point):
         self.x = point[0]
         self.y = point[1]
         for self.ship in self.shipList:
@@ -252,7 +241,7 @@ class Ship(object):
         point = [x,y]
         Create a list of the coordinates of the ship. Start with the first point, and then add the direction vector
         until you get to the length of the ship'''
-        self.coordinates = [[point[0] + i * direction[0], point[1]+ i*direction[1]] for i in range(length)]
+        self.coordinates = [[point[0] + i * direction[0], point[1]+ i * direction[1]] for i in range(length)]
         print(length)
         self.length = length
         self.hitList = []
@@ -278,7 +267,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-
-
