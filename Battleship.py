@@ -17,13 +17,9 @@ class GameLoop(object):
             computer.gameBoard.display()
             for ship in computer.gameBoard.shipList:
                 print(ship.coordinates)
-            #guess = human.getGuess()
-            for i in range (10):
-                for j in range(10):
-                    point = [i, j]
-                    computer.gameBoard.checkPoint(point)
-            computer.gameBoard.display()
-            #computer.gameBoard.checkPoint(guess)
+            guess = human.getGuess()
+            
+            computer.gameBoard.checkPoint(guess)
             
 
 class Player(object):
@@ -141,6 +137,7 @@ class Gameboard(object):
             x.append(0)
         for j in range(length):
             fullList.append(x)'''
+
 
         fullList = [[0 for j in range(width)] for i in range(length)]
         

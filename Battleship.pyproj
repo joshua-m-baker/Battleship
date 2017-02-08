@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>cfcd9dfd-d98e-41c8-947e-a63e52bd1ec4</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>module1.py</StartupFile>
+    <StartupFile>GUI.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -23,7 +23,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Battleship.py" />
-    <Compile Include="module1.py">
+    <Compile Include="GUI.py">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
