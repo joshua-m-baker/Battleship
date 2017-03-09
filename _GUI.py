@@ -10,6 +10,7 @@ Just a gui for now, will be filled in with battleship stuff later. Tiles change 
 import pygame
 from pygame.locals import *
 import sys
+import Button as bt
 
 pygame.init()
 
@@ -20,42 +21,8 @@ white = (255, 255, 255)
 
 
 
-#class for the tiles in the grid
-class Button(object):
-    def __init__(self, rect, color, size, screen):
-        
-        self.unclickedColor = blue
-        self.missColor = white
-        self.hitColor = red
-        self.color = self.unclickedColor
 
-        self.size = size
-        self.screen = screen
-
-        self.rect = rect
-
-    def draw(self):
-        pygame.draw.rect(self.screen, self.color, self.rect)
-
-    def setColor(self, color):
-        self.color = color
-
-    #if point is inside shape, return true and change the color of the tile
-    def checkClicked(self, point):
-        hit = False
-        if self.rect.collidepoint(point):
-            if (hit == True):
-                self.color = self.hitColor
-            else:
-                self.color = self.missColor
-            return True
-        else:
-            return False
             
-
-
-
-
 class GameBoard(object):
 
     def __init__(self):
@@ -140,7 +107,7 @@ class GameBoard(object):
 
                 rect1 = Rect((startX1, startY1), (squareSize - 1, squareSize - 1))
 
-                self.tileList.append(Button(rect1, blue, squareSize, self.screen))
+                self.tileList.append(bt.Button(rect1, blue, squareSize, self.screen, i, j))
 
 
     def mainLoop(self):

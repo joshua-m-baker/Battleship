@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>cfcd9dfd-d98e-41c8-947e-a63e52bd1ec4</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>GUI.py</StartupFile>
+    <StartupFile>GameLoop.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -22,8 +22,32 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Battleship.py" />
-    <Compile Include="GUI.py">
+    <Compile Include="GameBoard.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="_Battleship.py" />
+    <Compile Include="BoardGui.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="_GameBoard.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GameLoop.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="_GUI.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="HumanPlayer.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ComputerPlayer.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Button.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Ship.py">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
