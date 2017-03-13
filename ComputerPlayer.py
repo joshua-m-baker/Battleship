@@ -1,14 +1,25 @@
 from GameBoard import GameBoard
 import random
+
 class ComputerPlayer(object):
-    def __init__(self):
+    def __init__(self, name):
         self.gameBoard = GameBoard(10, 10)
+        self.guessedPoints = []
+        self.name = name
+        self.hitShips = []
+
+    def getName(self):
+        return self.name
+
+#++++++++++++++++++++++++++++++++++++
+#PLACING SHIPS
+
     #length, point, direction
     def shipPlacement(self, length):
         while True:
             x = random.randint(0, len(self.gameBoard.gameGrid[1]) - 1)
             y = random.randint(0, len(self.gameBoard.gameGrid[0]) - 1)
-            point = [x, y]
+            point = (x, y)
             direction = self.getDirection(point, length)
             if direction != False:
                 return [length, point, direction]
@@ -30,17 +41,32 @@ class ComputerPlayer(object):
                 return False
         return True
 
-
     def getDirection(self, point, length):
-        directionList = [[1, 0], [0, 1], [-1, 0], [0,-1]]
+        directionList = [(1, 0), (0, 1), (-1, 0), (0,-1)]
 
         while True:
             if len(directionList) == 0:
-                print("EMPTY")
+                #print("EMPTY")
                 return False
             direction = random.choice(directionList)
-            resultsList = [self.checkValidPlacement([point[0] + i * direction[0], point[1] + i * direction[1]]) for i in range(length)]        
+            resultsList = [self.checkValidPlacement((point[0] + i * direction[0], point[1] + i * direction[1])) for i in range(length)]        
             if all(resultsList) == True:
                 return direction
             else:
                 directionList.remove(direction)
+
+#+++++++++++++++++++++++++++
+
+#GUESSING
+
+    def makeGuess(self):
+        #if len(self.hitShips != 0):
+        #    currentShip =self.hitShips[0]
+
+
+        while(True):
+            x = random.randint(0,9)
+            y = random.randint(0,9)
+            if (x,y) not in self.guessedPoints:
+                self.guessedPoints.append((x,y))
+                return (x,y)

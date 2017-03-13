@@ -23,25 +23,21 @@ class GameBoard(object):
 
     def checkPoint(self, point):
         for ship in self.shipList:
-            if (ship.checkHit(point) == True):
-                ship.setHit(point)
-                #self.gameGrid[y][x] = 2
-                #print("HIT")
-                #if (ship.checkSunk() == True):
-                    #print("SUNK")
-                    #self.sunkenShips.append(ship)
+            if (ship.checkPoint(point) == True):
                 return True
         return False
-        #print(self.x, self.y)
-        #self.gameGrid[y][x] = 1
 
+    #Add hitting a ship under this method
     def hitPoint(self, point, value):
         x = point[0]
         y = point[1]
 
-        self.gameGrid[y][x] = value
-        
+        for ship in self.shipList:
+            if point in ship.coordinates:
+                ship.hitShip(point)
 
+        self.gameGrid[y][x] = value
+       
     def checkWin(self):
         if len(self.shipList) == 0:
             return True

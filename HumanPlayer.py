@@ -1,8 +1,12 @@
 from GameBoard import GameBoard
 import random
 class HumanPlayer(object):
-    def __init__(self):
+    def __init__(self, name):
         self.gameBoard = GameBoard(10,10)
+        self.name = name
+
+    def getName(self):
+        return self.name
 
     def shipPlacement(self, length):
         while True:

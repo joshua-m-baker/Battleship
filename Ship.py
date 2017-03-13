@@ -5,18 +5,18 @@ class Ship(object):
         point = [x,y]
         Create a list of the coordinates of the ship. Start with the first point, and then add the direction vector
         until you get to the length of the ship'''
-        self.coordinates = [[point[0] + i * direction[0], point[1]+ i * direction[1]] for i in range(length)]
+        self.coordinates = [(point[0] + i * direction[0], point[1]+ i * direction[1]) for i in range(length)]
         
         self.length = length
         self.hitList = []
         
-    def checkHit(self, point):
+    def checkPoint(self, point):
         if point in self.coordinates:
             return True
         else:
             return False
 
-    def setHit(self, point):
+    def hitShip(self, point):
         self.hitList.append(point)
 
     def checkSunk(self):

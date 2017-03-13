@@ -3,15 +3,14 @@ from pygame.locals import *
 import sys
 import Button as bt
 
+blue = (0, 0, 255)
+black = (0, 0, 0)
+red = (255, 0, 0)
+white = (255, 255, 255)
+
 class BoardGui(object):
 
     def __init__(self):
-
-        blue = (0, 0, 255)
-        black = (0, 0, 0)
-        red = (255, 0, 0)
-        white = (255, 255, 255)
-
        
         self.backgroundColor = blue
 
@@ -31,30 +30,30 @@ class BoardGui(object):
 
         self.tileList = []
 
-        self.drawBoard()
-        self.makeSquares()
-        self.drawSquares()
-        pygame.display.flip()
-
-        #self.mainLoop()
-
-
-
-    #Draw the board
-    def drawBoard(self):
         self.screen = pygame.display.set_mode((self.width, self.height))
         self.screen.fill(self.backgroundColor)
 
+        self.makeSquares()
         self.drawGrid()
-        
-    #Draw each of the tile objects
-    def drawSquares(self):
-        for i in self.tileList:
-            i.draw()
-            
-    
-    #This method will definitely be updated. First variables are a bunch of things for formatting
 
+    
+    def makeSquares(self):
+        #Creates all the tiles for the grid
+        for i in range(0, self.numSquares):
+            startX = self.xMargin + self.squareSize * i + 1
+            startY = self.yMargin + 1
+            for j in range(0, self.numSquares):
+                startX1 = startX
+                
+                startY1 = self.yMargin + self.squareSize * j + 1
+
+                rect1 = Rect((startX1, startY1), (self.squareSize - 1, self.squareSize - 1))
+
+                self.tileList.append(bt.Button(rect1, self.squareSize, self.screen, i, j))
+
+
+
+            
     def drawGrid(self):
         #Draw the lines of the grid. start/endPoint draws vertical lines, start/endPoint1 draws horizontal
 
@@ -86,42 +85,21 @@ class BoardGui(object):
             pygame.draw.line(self.screen, black, startPoint2, endPoint2, 1)
             self.screen.blit(textSurface2, (int(startX2 - 20), int(startY2 + self.squareSize//4)))
 
-            
+    #Draw each of the tile objects
+    def drawSquares(self, boardList):
+        for i in range(len(self.tileList)):
+            self.tileList[i].draw(boardList[int(i%10)][int(i//10)])
+        #print(" ")
+        pygame.display.flip()
 
-#++++++++++++++++++++++++++++++++++++++++++
-    def makeSquares(self):
-        #Creates all the tiles for the grid
-        for i in range(0, self.numSquares):
-            startX = self.xMargin + self.squareSize * i + 1
-            startY = self.yMargin + 1
-            for j in range(0, self.numSquares):
-                startX1 = startX
-                
-                startY1 = self.yMargin + self.squareSize * j + 1
-
-                rect1 = Rect((startX1, startY1), (self.squareSize - 1, self.squareSize - 1))
-
-                self.tileList.append(bt.Button(rect1, blue, self.squareSize, self.screen, i, j))
-#+++++++++++++++++++++++++++++++++++++++++++
-
-    #def updateTile(self, point, color, status):
-    def updateTile(self, point, status):
-        x = point[0]
-        y = point[1]
-        index = x*10 + y
-        self.tileList[index].setStatus(status)
-        #self.tileList[index].setColor(color)
-
-        #self.tileList[index].draw()
-
-    def updateGrid(self):
-        for i in self.tileList:
-            i.draw
-        
+    def drawInfo(self, info):
+        self.screen.fill(blue)
+        textSurface1 = self.font.render(info, True, (0,0,0))
+        self.screen.blit(textSurface1, (0,0))
+        pygame.display.flip()
 
     def checkEvents(self):
         while True:
-            pygame.display.flip()
             for event in pygame.event.get():
                     if event.type == pygame.QUIT:
                         pygame.quit()

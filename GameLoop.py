@@ -1,66 +1,83 @@
 from ComputerPlayer import ComputerPlayer
 from HumanPlayer import HumanPlayer
 from BoardGui import BoardGui
+import time
 
 class GameLoop(object):
 
     def __init__(self):
-        self.computer = ComputerPlayer()
-        self.human = HumanPlayer()
-        self.computerBoard = BoardGui()
-        self.humanBoard = BoardGui()
+        self.computer = ComputerPlayer("Player 2")
+        self.human = HumanPlayer("Player 1")
+        self.boardGui = BoardGui()
 
         self.shipLengths = [2, 3, 3, 4, 5]
         self.numberOfShips = len(self.shipLengths)
         self.run()
-        
 
     def run(self):
-        self.current = self.computer
-        self.other = self.human
-
-        self.currentBoard = self.computerBoard
-        self.otherBoard = self.humanBoard
-        #self.computerBoard.drawBoard()
-        for i in range(self.numberOfShips):
-            self.current.gameBoard.placeShip(self.current.shipPlacement(self.shipLengths[i]))
-            self.other.gameBoard.placeShip(self.other.shipPlacement(self.shipLengths[i]))
-            
-        for ship in self.current.gameBoard.shipList:
-                print(ship.coordinates)
-
+        self.current = self.human
+        self.other = self.computer
+        
+        self.computerPlaceShips()
+        self.humanPlaceShips()
+        
         keepGoing = True
         while (keepGoing):
-            self.currentBoard.updateGrid()
-            move = self.currentBoard.checkEvents()
-            guessedPoint = [move[0], move[1]]
-            if guessedPoint not in self.current.gameBoard.guessedPoints:
-                self.makeMove(guessedPoint)
-                self.current.gameBoard.guessedPoints.append(guessedPoint)
-            for i in self.current.gameBoard.shipList:
+
+            otherBoard = self.other.gameBoard
+
+            self.boardGui.drawInfo(self.current.getName())
+            self.boardGui.drawGrid()
+            self.boardGui.drawSquares(otherBoard.gameGrid)
+           
+            if type(self.current) is HumanPlayer:
+                validInput = False
+                while (validInput == False):
+                    move = self.boardGui.checkEvents()
+                    if move not in otherBoard.guessedPoints:
+                        otherBoard.guessedPoints.append(move)
+                        validInput = True
+            else:
+                time.sleep(1)
+                move = self.current.makeGuess()
+           
+            if (otherBoard.checkPoint(move) == True):
+                otherBoard.hitPoint(move, 2)
+            else:
+                otherBoard.hitPoint(move, 1)
+
+            self.boardGui.drawSquares(otherBoard.gameGrid)
+
+            for i in otherBoard.shipList:
                 if (i.checkSunk() == True):
                     print("You sunk a ship")
-                    self.current.gameBoard.shipList.remove(i)
-            if (self.current.gameBoard.checkWin() == True):
+                    otherBoard.shipList.remove(i)
+
+            time.sleep(2)
+
+            if (otherBoard.checkWin() == True):
+                print("You win")
                 keepGoing = False
+            else:
+                self.swapPlayers()
 
-            self.current, self.other = self.other, self.current
-            self.currentBoard, self.otherBoard = self.otherBoard, self.currentBoard
+            #self.current, self.other = self.other, self.current
+            #self.currentBoard, self.otherBoard = self.otherBoard, self.currentBoard
 
-        print("You win")
+        
 
+    def computerPlaceShips(self):
+        for i in range(self.numberOfShips):
+            self.computer.gameBoard.placeShip(self.computer.shipPlacement(self.shipLengths[i]))
+            
+        #for ship in self.computer.gameBoard.shipList:
+        #        print(ship.coordinates)
 
-    def makeMove(self, point):
-        if (self.current.gameBoard.checkPoint(point) == True):
-            self.current.gameBoard.hitPoint(point, 2)
-            #self.currentBoard.updateTile(point, 2)
-        else:
-            self.current.gameBoard.hitPoint(point, 1)
-            #self.currentBoard.updateTile(point, 1)
+    def humanPlaceShips(self):
+        for i in range(self.numberOfShips):
+            self.human.gameBoard.placeShip(self.human.shipPlacement(self.shipLengths[i]))
 
-    def redrawBoard(self, board):
-        for i in range(len(board.gameGrid)):
-            if (gameGrid[i] == 2):
-                pass
+    def swapPlayers(self):
+        self.current, self.other = self.other, self.current
 
 g = GameLoop()

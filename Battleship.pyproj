@@ -25,6 +25,12 @@
     <Compile Include="GameBoard.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="HitShip.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="tester.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="_Battleship.py" />
     <Compile Include="BoardGui.py">
       <SubType>Code</SubType>
