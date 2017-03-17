@@ -3,12 +3,21 @@ from HumanPlayer import HumanPlayer
 from BoardGui import BoardGui
 import time
 
+""" 
+Add manual ship placement
+Ai should be able to handle finding adjacent ships
+
+
+"""
+
 class GameLoop(object):
 
     def __init__(self):
-        self.computer = ComputerPlayer("Player 2")
-        self.human = HumanPlayer("Player 1")
         self.boardGui = BoardGui()
+        self.computer = ComputerPlayer("Player 2")
+        self.human = ComputerPlayer("Player 1")
+        #self.human = HumanPlayer("Player 1", self.boardGui)
+        
 
         self.shipLengths = [2, 3, 3, 4, 5]
         self.numberOfShips = len(self.shipLengths)
@@ -18,11 +27,13 @@ class GameLoop(object):
         self.current = self.human
         self.other = self.computer
         
-        self.computerPlaceShips()
-        self.humanPlaceShips()
+        self.current.placeShips(self.shipLengths)
+        self.other.placeShips(self.shipLengths)
         
         keepGoing = True
         while (keepGoing):
+
+            self.boardGui.checkEvents2()
 
             otherBoard = self.other.gameBoard
 
@@ -30,52 +41,40 @@ class GameLoop(object):
             self.boardGui.drawGrid()
             self.boardGui.drawSquares(otherBoard.gameGrid)
            
-            if type(self.current) is HumanPlayer:
-                validInput = False
-                while (validInput == False):
-                    move = self.boardGui.checkEvents()
-                    if move not in otherBoard.guessedPoints:
-                        otherBoard.guessedPoints.append(move)
-                        validInput = True
-            else:
-                time.sleep(1)
-                move = self.current.makeGuess()
+            move = self.current.getMove()
+
+            if type(self.current) is ComputerPlayer:
+                pass
+                #time.sleep(.25)
            
             if (otherBoard.checkPoint(move) == True):
-                otherBoard.hitPoint(move, 2)
+                result = 2
             else:
-                otherBoard.hitPoint(move, 1)
+                result = 1
+
+            otherBoard.hitPoint(move, result)
+            self.current.updateInfo(move, result)
 
             self.boardGui.drawSquares(otherBoard.gameGrid)
 
             for i in otherBoard.shipList:
                 if (i.checkSunk() == True):
-                    print("You sunk a ship")
+                    #print("You sunk a ship at " + str( move))
+                    self.current.updateInfo(move, 3)
+                    ship = i
                     otherBoard.shipList.remove(i)
+                    self.current.resolveSink(ship)
 
-            time.sleep(2)
+            #time.sleep(2)
+            
 
             if (otherBoard.checkWin() == True):
-                print("You win")
+                print(self.current.name + " wins!")
                 keepGoing = False
             else:
+                
                 self.swapPlayers()
-
-            #self.current, self.other = self.other, self.current
-            #self.currentBoard, self.otherBoard = self.otherBoard, self.currentBoard
-
-        
-
-    def computerPlaceShips(self):
-        for i in range(self.numberOfShips):
-            self.computer.gameBoard.placeShip(self.computer.shipPlacement(self.shipLengths[i]))
-            
-        #for ship in self.computer.gameBoard.shipList:
-        #        print(ship.coordinates)
-
-    def humanPlaceShips(self):
-        for i in range(self.numberOfShips):
-            self.human.gameBoard.placeShip(self.human.shipPlacement(self.shipLengths[i]))
+                #pass
 
     def swapPlayers(self):
         self.current, self.other = self.other, self.current

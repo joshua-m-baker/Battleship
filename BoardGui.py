@@ -111,5 +111,11 @@ class BoardGui(object):
                             if i.checkClicked(point):
                                 return (i.gridX, i.gridY)
                                 #self.drawSquares()
+
+    def checkEvents2(self):
+        for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
                 
           

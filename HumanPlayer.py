@@ -1,12 +1,18 @@
 from GameBoard import GameBoard
 import random
 class HumanPlayer(object):
-    def __init__(self, name):
+    def __init__(self, name, gui):
         self.gameBoard = GameBoard(10,10)
         self.name = name
+        self.guessedPoints = []
+        self.gui = gui
 
     def getName(self):
         return self.name
+
+    def placeShips(self, shipLengths):
+        for i in range(len(shipLengths)):
+            self.gameBoard.placeShip(self.shipPlacement(shipLengths[i]))
 
     def shipPlacement(self, length):
         while True:
@@ -48,36 +54,20 @@ class HumanPlayer(object):
             else:
                 directionList.remove(direction)
 
+    def updateInfo(self, move, result):
+        pass
 
-    '''def getInput(self):
-        xAnswers = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
-        yAnswers = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j"]
-        yDict = {"A" : 0, "B" : 1, "C" : 2, "D" : 3, "E" : 4, "F" : 5, "G" : 6, "H" : 7, "I" : 8, "J" : 9}
-        while True:
-            x = input("Select a column (1 - 10): ")
-            if x in xAnswers:
-                x = int(x) - 1
-                if 0 <= x <= (len(self.gameBoard.gameGrid[0])):
-                    break
-            else:
-                print("Please choose a number between 1 and 10")
+    def getMove(self):
+            validInput = False
+            while (validInput == False):
+                move = self.gui.checkEvents()
+                if move not in self.guessedPoints:
+                    self.guessedPoints.append(move)
+                    validInput = True
+            return move
 
-        while True:
-            y = (input("Select a row (A - J): "))
-            if y in yAnswers:
-                y = y.upper()
-                y = yDict[y]
-                if 0 <= y <= (len(self.gameBoard.gameGrid[0])):
-                    
-                    return [x, y]
-         
+    def resolveSink(self, ship):
+        pass
 
-    #Take an x and y from the getInput function and make sure that spot hasn't been guessed
-    def getGuess(self):
-        while True:
-            self.guess = self.getInput()
-            x = self.guess[0]
-            y = self.guess[1]
 
-            if (self.gameBoard.gameGrid[y][x] == 0):
-                return [x, y]'''
+
