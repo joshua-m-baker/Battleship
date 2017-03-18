@@ -1,23 +1,22 @@
 from ComputerPlayer import ComputerPlayer
 from HumanPlayer import HumanPlayer
-from BoardGui import BoardGui
+from PlacementGui import PlacementGui
 import time
 
 """ 
 Add manual ship placement
-Ai should be able to handle finding adjacent ships
-
-
 """
 
 class GameLoop(object):
 
     def __init__(self):
-        self.boardGui = BoardGui()
-        self.computer = ComputerPlayer("Player 2")
-        self.human = ComputerPlayer("Player 1")
-        #self.human = HumanPlayer("Player 1", self.boardGui)
         
+        self.boardGui = PlacementGui()
+        #self.placementGui = BoardGui()
+        self.placementGui = PlacementGui()
+        self.computer = ComputerPlayer("Player 2")
+        #self.human = ComputerPlayer("Player 1")
+        self.human = HumanPlayer("Player 1", self.boardGui, self.placementGui)
 
         self.shipLengths = [2, 3, 3, 4, 5]
         self.numberOfShips = len(self.shipLengths)
@@ -29,6 +28,8 @@ class GameLoop(object):
         
         self.current.placeShips(self.shipLengths)
         self.other.placeShips(self.shipLengths)
+
+        self.boardGui.drawBoard(self.other.gameBoard.gameGrid, self.current.getName())
         
         keepGoing = True
         while (keepGoing):
@@ -37,15 +38,17 @@ class GameLoop(object):
 
             otherBoard = self.other.gameBoard
 
-            self.boardGui.drawInfo(self.current.getName())
-            self.boardGui.drawGrid()
-            self.boardGui.drawSquares(otherBoard.gameGrid)
+            self.boardGui.updateSquares(otherBoard.gameGrid)
+
+            #self.boardGui.drawInfo(self.current.getName())
+            #self.boardGui.drawGrid()
+            #self.boardGui.drawSquares(otherBoard.gameGrid)
            
             move = self.current.getMove()
 
             if type(self.current) is ComputerPlayer:
-                pass
-                #time.sleep(.25)
+                
+                time.sleep(.75)
            
             if (otherBoard.checkPoint(move) == True):
                 result = 2
@@ -55,17 +58,18 @@ class GameLoop(object):
             otherBoard.hitPoint(move, result)
             self.current.updateInfo(move, result)
 
-            self.boardGui.drawSquares(otherBoard.gameGrid)
+            #self.boardGui.drawSquares(otherBoard.gameGrid)
+            self.boardGui.updateSquares(otherBoard.gameGrid)
 
             for i in otherBoard.shipList:
                 if (i.checkSunk() == True):
-                    #print("You sunk a ship at " + str( move))
+                    print("You sunk a ship at " + str( move))
                     self.current.updateInfo(move, 3)
                     ship = i
                     otherBoard.shipList.remove(i)
                     self.current.resolveSink(ship)
 
-            #time.sleep(2)
+            time.sleep(1)
             
 
             if (otherBoard.checkWin() == True):

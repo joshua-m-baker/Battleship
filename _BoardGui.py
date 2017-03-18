@@ -1,7 +1,10 @@
 import pygame
 from pygame.locals import *
 import sys
-import Button as bt
+from GameTile import GameTile
+from MenuButton import MenuButton
+
+#Make gui inheritance
 
 blue = (0, 0, 255)
 black = (0, 0, 0)
@@ -16,6 +19,9 @@ class BoardGui(object):
 
         self.height = 480
         self.width = 640
+        #self.height = 720
+        #self.width = 1280
+
 
         pygame.font.init()
         self.font = pygame.font.Font(None, 30)
@@ -30,8 +36,20 @@ class BoardGui(object):
 
         self.tileList = []
 
+        menuButtonRect = Rect((0,0), (30, 30))
+        self.menuButtons = []
+
+        self.menuToggle = False
+
+        self.info = ""
+        self.lastBoardList = []
+        
+        #self.screen = pygame.display.set_mode((self.width, self.height), pygame.FULLSCREEN)
         self.screen = pygame.display.set_mode((self.width, self.height))
         self.screen.fill(self.backgroundColor)
+
+        #self.menuButtons.append(MenuButton(menuButtonRect, self.screen, lambda : self.drawMenu()))
+        self.menuButtons.append(MenuButton(menuButtonRect, self.screen, lambda : self.drawMenu()))
 
         self.makeSquares()
         self.drawGrid()
@@ -49,7 +67,7 @@ class BoardGui(object):
 
                 rect1 = Rect((startX1, startY1), (self.squareSize - 1, self.squareSize - 1))
 
-                self.tileList.append(bt.Button(rect1, self.squareSize, self.screen, i, j))
+                self.tileList.append(GameTile(rect1, self.screen, i, j))
 
 
 
@@ -87,30 +105,83 @@ class BoardGui(object):
 
     #Draw each of the tile objects
     def drawSquares(self, boardList):
+        self.lastBoardList = boardList
         for i in range(len(self.tileList)):
-            self.tileList[i].draw(boardList[int(i%10)][int(i//10)])
+            self.tileList[i].tileDraw(boardList[int(i%10)][int(i//10)])
+        for i in self.menuButtons:
+            i.draw()
         #print(" ")
         pygame.display.flip()
 
     def drawInfo(self, info):
+        self.info = info
         self.screen.fill(blue)
         textSurface1 = self.font.render(info, True, (0,0,0))
         self.screen.blit(textSurface1, (0,0))
         pygame.display.flip()
 
+    def drawMenu(self):
+        #pygame.draw.rect(self.screen, (0,0,0), Rect((0,0), (self.width, self.height)))
+
+        self.swap()
+        if self.menuToggle == True:
+            buttonHeight = 50
+            buttonWidth = 200
+
+            buttonX = (self.width//2) - (buttonWidth // 2)
+            buttonY = (self.height//2) - (buttonHeight //2)
+            point = (buttonX, buttonY)
+
+            menuButtonRect = Rect(point, (200, 50))
+            button = MenuButton(menuButtonRect, self.screen, lambda : self.quit())
+            pygame.draw.rect(self.screen, blue, Rect((0,0), (self.width, self.height)))
+            self.menuButtons.append(button)
+            for i in self.menuButtons:
+                i.draw()
+        else:
+            self.menuButtons.pop(1)
+            pygame.draw.rect(self.screen, blue, Rect((0,0), (self.width, self.height)))
+            
+            self.drawGrid()
+            self.drawInfo(self.info)
+            self.drawSquares(self.lastBoardList)
+        
+        pygame.display.flip()
+
+    def performAction(self, f):
+        f()
+
+    def swap(self):
+        print(self.menuToggle)
+        self.menuToggle = not self.menuToggle
+        print(self.menuToggle)
+
     def checkEvents(self):
         while True:
             for event in pygame.event.get():
-                    if event.type == pygame.QUIT:
-                        pygame.quit()
-                        sys.exit()
-                    elif event.type == pygame.MOUSEBUTTONUP:
-                        point = pygame.mouse.get_pos()
+                if event.type == pygame.QUIT:
+                    self.quit()
+                
+                elif event.type == pygame.K_UP:
+                    if pygame.K_ESCAPE:
+                        self.performAction(self.menuButtons[0].getAction())
+                    
+                elif event.type == pygame.MOUSEBUTTONUP:
+                    point = pygame.mouse.get_pos()
 
-                        for i in self.tileList:
-                            if i.checkClicked(point):
-                                return (i.gridX, i.gridY)
-                                #self.drawSquares()
+                    for i in self.menuButtons:
+                        if i.checkClicked(point):
+                            print("clicked menu Button")
+                            self.performAction(i.getAction()) 
+                            
+
+                    for i in self.tileList:
+                        if i.checkClicked(point):
+                            return (i.gridX, i.gridY)
+                            #self.drawSquares()
+
+                    
+
 
     def checkEvents2(self):
         for event in pygame.event.get():

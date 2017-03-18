@@ -1,4 +1,3 @@
-from HitShip import HitShip
+from PlacementGui import PlacementGui
 
-ship = HitShip((0,0))
-print(ship.getNextGuess())
+p = PlacementGui()

@@ -22,26 +22,40 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AbstractButton.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Menu.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PlacementGui.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="GameBoard.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GameTile.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AbstractGui.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="HitShip.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="MenuButton.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="_MenuButton.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="tester.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="_Battleship.py" />
-    <Compile Include="BoardGui.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="_GameBoard.py">
+    <Compile Include="_BoardGui.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="GameLoop.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="_GUI.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="HumanPlayer.py">
@@ -50,7 +64,7 @@
     <Compile Include="ComputerPlayer.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Button.py">
+    <Compile Include="_GameTile.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Ship.py">

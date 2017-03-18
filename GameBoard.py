@@ -21,6 +21,9 @@ class GameBoard(object):
         direction = shipInfo[2]
         self.shipList.append(Ship(length, point, direction))
 
+    def changePoint(self, point):
+        self.gameGrid[point[1]][point[0]] = 2
+
     def checkPoint(self, point):
         for ship in self.shipList:
             if (ship.checkPoint(point) == True):
