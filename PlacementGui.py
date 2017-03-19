@@ -19,7 +19,7 @@ class PlacementGui(AbstractGui):
         self.menuButton = MenuButton(pygame.Rect((0,0), (30, 30)), self.screen, lambda : self.toggleMenu())
         self.menuButtons.append(self.menuButton)
 
-        self.boardGui = BoardGui(self.screen, pygame.Rect((0,0), (self.screen.get_width(), self.screen.get_height())), "Player 1's Board")
+        self.boardGui = BoardGui(self.screen, pygame.Rect((0,0), (self.screen.get_width(), self.screen.get_height())), "Player 1")
         #self.board2 = BoardGui(self.screen, pygame.Rect((320,0), (320, 480)))
 
         #self.makeSquares()

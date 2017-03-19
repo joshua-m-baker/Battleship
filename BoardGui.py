@@ -9,10 +9,10 @@ class BoardGui(object):
         self.blue = (0, 0, 255)
 
         self.screen = screen
-        self.name = name
+        self.name = "{}'s Board".format(name)
 
         self.nameText = self.font.render(self.name, True, (0,0,0))
-        self.nameSize = self.font.size(name)
+        self.nameSize = self.font.size(self.name)
 
         self.fullRect = domainRect
 
