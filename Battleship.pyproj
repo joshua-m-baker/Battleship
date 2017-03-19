@@ -25,6 +25,12 @@
     <Compile Include="AbstractButton.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BoardGui.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GameGui.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Menu.py">
       <SubType>Code</SubType>
     </Compile>

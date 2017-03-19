@@ -3,14 +3,14 @@ import random
 from HitShip import HitShip
 
 class ComputerPlayer(object):
-    def __init__(self, name):
+    def __init__(self, num):
         self.gameBoard = GameBoard(10, 10)
 
         self.guessedPoints = []
         self.hitGuesses = []
         #Possibly track sunk points also
 
-        self.name = name
+        self.name = "Player {}".format(num)
         self.hitShips = []
         self.mode = "seek"
         self.goodGuesses = [(2, 2), (2, 4), (2, 6), (3, 3), (3, 5), (3, 7), (4, 2), (4, 4), (4, 6), (5, 3), (5, 5), (5, 7), (6, 2), (6, 4), (6, 6), (7, 3), (7, 5), (7, 7)]

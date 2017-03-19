@@ -1,35 +1,37 @@
 from GameBoard import GameBoard
 import random
+from PlacementGui import PlacementGui
+
 class HumanPlayer(object):
-    def __init__(self, name, gui, placementGui):
+    def __init__(self, num, gui):
         self.gameBoard = GameBoard(10,10)
-        self.name = name
+        self.name = "Player {}".format(num)
         self.guessedPoints = []
         self.gui = gui
-        self.placementGui = placementGui
+        self.placementGui = PlacementGui()
+        self.num = num
        
     def getName(self):
         return self.name
 
     def placeShips(self, shipLengths):
-
-        gui = self.placementGui
+        gui = PlacementGui()
         #gui.drawInfo(self.getName())
         #gui.drawGrid()
         #gui.drawSquares(self.gameBoard.gameGrid)
-        gui.drawBoard(self.gameBoard.gameGrid, self.getName())
+        gui.drawBoard(self.gameBoard.gameGrid)
 
         for i in shipLengths:
             #gui.drawSquares(self.gameBoard.gameGrid)
             gui.updateSquares(self.gameBoard.gameGrid)
-            print("place a ship of length: " + str(i))
+            #print("place a ship of length: " + str(i))
             point1 = self.getPlacement()
             self.gameBoard.changePoint(point1)
             #self.gui.drawSquares(self.gameBoard.gameGrid)
             keepGoing = True
             while (keepGoing == True):
                 #self.gui.drawSquares(self.gameBoard.gameGrid)
-                self.gui.updateSquares(self.gameBoard.gameGrid)
+                gui.updateSquares(self.gameBoard.gameGrid)
                 point2 = self.getPlacement()
                 
                 
@@ -60,7 +62,7 @@ class HumanPlayer(object):
     def getMove(self):
         validInput = False
         while (validInput == False):
-            move = self.gui.checkEvents()
+            move = self.gui.checkEvents(self.num)
             if move not in self.guessedPoints:
                 self.guessedPoints.append(move)
                 validInput = True

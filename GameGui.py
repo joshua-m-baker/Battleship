@@ -1,58 +1,55 @@
-from AbstractGui import AbstractGui
 import pygame
-#from pygame.locals import *
-from MenuButton import MenuButton
-from GameTile import GameTile
-from Menu import Menu
+from AbstractGui import AbstractGui
 from BoardGui import BoardGui
-#from PauseMenu import PauseMenu
+from Menu import Menu
+from MenuButton import MenuButton
 
-class PlacementGui(AbstractGui):
+class GameGui(AbstractGui):
     def __init__(self):
         super().__init__()
 
-        self.lastBoardList = []
-        self.lastInfo = ""
-
+        self.gameBoards = []
         self.menuButtons = []
+
+        width = self.screen.get_width()
+        height = self.screen.get_height()
 
         self.menuButton = MenuButton(pygame.Rect((0,0), (30, 30)), self.screen, lambda : self.toggleMenu())
         self.menuButtons.append(self.menuButton)
 
-        self.boardGui = BoardGui(self.screen, pygame.Rect((0,0), (self.screen.get_width(), self.screen.get_height())), "Player 1's Board")
-        #self.board2 = BoardGui(self.screen, pygame.Rect((320,0), (320, 480)))
+        
+        self.player1Board = BoardGui(self.screen, pygame.Rect((0,0), (width//2, height)), "Player 1")
+        self.player2Board = BoardGui(self.screen, pygame.Rect((width//2, 0), (width//2, height)), "Player 2")
+        self.gameBoards.append(self.player1Board)
+        self.gameBoards.append(self.player2Board)
 
-        #self.makeSquares()
+        self.currentBoard = self.player2Board
 
-    def drawBoard(self, boardlist):
+        self.lastP1Boardlist = []
+        self.lastP2Boardlist = []
+
+        self.menuButton = MenuButton(pygame.Rect((0,0), (30, 30)), self.screen, lambda : self.toggleMenu())
+        self.menuButtons.append(self.menuButton)
+
+    def drawBoard(self, p1Boardlist, p2Boardlist):
         self.clearScreen()
-        self.lastBoardList = boardlist
-        self.boardGui.drawBoard(boardlist)
-        self.menuButton.draw()
+        self.lastP1Boardlist = p1Boardlist
+        self.lastP2Boardlist = p2Boardlist
+        self.player1Board.drawBoard(p1Boardlist)
+        self.player2Board.drawBoard(p2Boardlist)
         pygame.display.flip()
 
-    def updateSquares(self, boardlist):
-        self.boardGui.drawSquares(boardlist)
+    def updateSquares(self, p1Boardlist, p2Boardlist):
+        self.lastP1Boardlist = p1Boardlist
+        self.lastP2Boardlist = p2Boardlist
+        self.player1Board.drawSquares(p1Boardlist)
+        self.player2Board.drawSquares(p2Boardlist)
         pygame.display.flip()
-
-    def drawInfo(self, info):
-        self.lastInfo = info
-        #self.screen.fill(blue)
-
+    
     def toggleMenu(self):
-        #print("clicked menu")
-        #p = PauseMenu()
         p = Menu(self.screen)
         self.performAction(p.main())
-        
         self.closeMenu()
-
-        ##Add the opaque background
-        #s = pygame.Surface((self.screenWidth, self.screenHeight))
-        #s.set_alpha(75)
-        #s.fill((255,255,255))
-        #self.screen.blit(s, (0,0))
-        #self.menuButtons()
 
     def closeMenu(self):
         self.clearScreen()
@@ -64,7 +61,12 @@ class PlacementGui(AbstractGui):
     def clearScreen(self):
         pygame.draw.rect(self.screen, self.blue, pygame.Rect((0,0), (self.width, self.height)))
 
-    def checkEvents(self):
+    def checkEvents(self, player):
+        if (player == 2):
+            self.currentBoard = self.player1Board
+        elif (player == 1):
+            self.currentBoard = self.player2Board
+
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -82,7 +84,7 @@ class PlacementGui(AbstractGui):
                             self.performAction(i.getAction())
                             
 
-                    for i in self.boardGui.tileList:
+                    for i in self.currentBoard.tileList:
                         if i.checkClicked(point):
                             return (i.gridX, i.gridY)
                             #self.drawSquares()
@@ -92,3 +94,5 @@ class PlacementGui(AbstractGui):
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
+
+

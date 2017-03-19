@@ -1,6 +1,7 @@
 from ComputerPlayer import ComputerPlayer
 from HumanPlayer import HumanPlayer
 from PlacementGui import PlacementGui
+from GameGui import GameGui
 import time
 
 """ 
@@ -11,26 +12,27 @@ class GameLoop(object):
 
     def __init__(self):
         
-        self.boardGui = PlacementGui()
+        self.boardGui = GameGui()
         #self.placementGui = BoardGui()
-        self.placementGui = PlacementGui()
-        self.computer = ComputerPlayer("Player 2")
+        #self.placementGui = PlacementGui()
+        self.player2 = ComputerPlayer("Player 2")
         #self.human = ComputerPlayer("Player 1")
-        self.human = HumanPlayer("Player 1", self.boardGui, self.placementGui)
+        self.player1 = HumanPlayer("Player 1", self.boardGui)
 
         self.shipLengths = [2, 3, 3, 4, 5]
         self.numberOfShips = len(self.shipLengths)
         self.run()
 
     def run(self):
-        self.current = self.human
-        self.other = self.computer
+        self.current = self.player1
+        self.other = self.player2
         
         self.current.placeShips(self.shipLengths)
         self.other.placeShips(self.shipLengths)
 
-        self.boardGui.drawBoard(self.other.gameBoard.gameGrid, self.current.getName())
-        
+        self.boardGui.drawBoard(self.player1.gameBoard.gameGrid, self.player2.gameBoard.gameGrid)
+        #self.boardGui.board2.drawBoard(self.other.gameBoard.gameGrid, self.current.getName())
+
         keepGoing = True
         while (keepGoing):
 
@@ -38,8 +40,8 @@ class GameLoop(object):
 
             otherBoard = self.other.gameBoard
 
-            self.boardGui.updateSquares(otherBoard.gameGrid)
-
+            self.boardGui.drawBoard(self.player1.gameBoard.gameGrid, self.player2.gameBoard.gameGrid)
+            
             #self.boardGui.drawInfo(self.current.getName())
             #self.boardGui.drawGrid()
             #self.boardGui.drawSquares(otherBoard.gameGrid)
@@ -59,7 +61,7 @@ class GameLoop(object):
             self.current.updateInfo(move, result)
 
             #self.boardGui.drawSquares(otherBoard.gameGrid)
-            self.boardGui.updateSquares(otherBoard.gameGrid)
+            self.boardGui.updateSquares(self.player1.gameBoard.gameGrid, self.player2.gameBoard.gameGrid)
 
             for i in otherBoard.shipList:
                 if (i.checkSunk() == True):
