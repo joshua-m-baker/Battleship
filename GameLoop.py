@@ -50,7 +50,7 @@ class GameLoop(object):
 
             if type(self.current) is ComputerPlayer:
                 
-                time.sleep(.75)
+                time.sleep(1)
            
             if (otherBoard.checkPoint(move) == True):
                 result = 2
@@ -70,8 +70,6 @@ class GameLoop(object):
                     ship = i
                     otherBoard.shipList.remove(i)
                     self.current.resolveSink(ship)
-
-            time.sleep(1)
             
 
             if (otherBoard.checkWin() == True):

@@ -28,8 +28,6 @@ class GameGui(AbstractGui):
         self.lastP1Boardlist = []
         self.lastP2Boardlist = []
 
-        self.menuButton = MenuButton(pygame.Rect((0,0), (30, 30)), self.screen, lambda : self.toggleMenu())
-        self.menuButtons.append(self.menuButton)
 
     def drawBoard(self, p1Boardlist, p2Boardlist):
         self.clearScreen()
@@ -37,6 +35,7 @@ class GameGui(AbstractGui):
         self.lastP2Boardlist = p2Boardlist
         self.player1Board.drawBoard(p1Boardlist)
         self.player2Board.drawBoard(p2Boardlist)
+        self.menuButton.draw()
         pygame.display.flip()
 
     def updateSquares(self, p1Boardlist, p2Boardlist):
@@ -48,12 +47,13 @@ class GameGui(AbstractGui):
     
     def toggleMenu(self):
         p = Menu(self.screen)
+        p.drawButtons()
         self.performAction(p.main())
         self.closeMenu()
 
     def closeMenu(self):
         self.clearScreen()
-        self.drawBoard(self.lastBoardList)
+        self.drawBoard(self.lastP1Boardlist, self.lastP2Boardlist)
 
     def performAction(self, f):
         f()

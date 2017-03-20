@@ -1,11 +1,9 @@
 from AbstractGui import AbstractGui
 import pygame
-#from pygame.locals import *
 from MenuButton import MenuButton
 from GameTile import GameTile
 from Menu import Menu
 from BoardGui import BoardGui
-#from PauseMenu import PauseMenu
 
 class PlacementGui(AbstractGui):
     def __init__(self):
@@ -15,35 +13,49 @@ class PlacementGui(AbstractGui):
         self.lastInfo = ""
 
         self.menuButtons = []
-
-        self.menuButton = MenuButton(pygame.Rect((0,0), (30, 30)), self.screen, lambda : self.toggleMenu())
-        self.menuButtons.append(self.menuButton)
-
-        self.boardGui = BoardGui(self.screen, pygame.Rect((0,0), (self.screen.get_width(), self.screen.get_height())), "Player 1")
+     
+        self.boardGui = BoardGui(self.screen, pygame.Rect((0,0), (self.screen.get_width(), self.screen.get_height())), "Player 1", 35)
         #self.board2 = BoardGui(self.screen, pygame.Rect((320,0), (320, 480)))
 
         #self.makeSquares()
+        self.addMenuButtons()
+    
+    def addMenuButtons(self):
+        self.menuButton = MenuButton(pygame.Rect((0,0), (30, 30)), self.screen, lambda : self.toggleMenu())
+        self.menuButtons.append(self.menuButton)
+    
 
     def drawBoard(self, boardlist):
         self.clearScreen()
-        self.lastBoardList = boardlist
+        if (boardlist != []):
+            self.lastBoardList = boardlist
+        else:
+            print("Empty boardlist")
         self.boardGui.drawBoard(boardlist)
         self.menuButton.draw()
         pygame.display.flip()
 
     def updateSquares(self, boardlist):
+        if (boardlist != []):
+            self.lastBoardList = boardlist
+        else:
+            print("Empty boardlist")
         self.boardGui.drawSquares(boardlist)
         pygame.display.flip()
 
     def drawInfo(self, info):
         self.lastInfo = info
+
         #self.screen.fill(blue)
 
     def toggleMenu(self):
         #print("clicked menu")
         #p = PauseMenu()
         p = Menu(self.screen)
-        self.performAction(p.main())
+        p.drawButtons()
+        action = p.main()
+        
+        self.performAction(action)
         
         self.closeMenu()
 

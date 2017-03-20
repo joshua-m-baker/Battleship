@@ -43,7 +43,7 @@ class Menu(object):
 
     def main(self):
         while (True):
-            self.drawButtons()
+            #self.drawButtons()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.quit()

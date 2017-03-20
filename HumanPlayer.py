@@ -15,7 +15,7 @@ class HumanPlayer(object):
         return self.name
 
     def placeShips(self, shipLengths):
-        gui = PlacementGui()
+        gui = self.placementGui
         #gui.drawInfo(self.getName())
         #gui.drawGrid()
         #gui.drawSquares(self.gameBoard.gameGrid)
@@ -26,6 +26,7 @@ class HumanPlayer(object):
             while (keepGoing1):
                 keepGoing2 = True
                 #gui.drawSquares(self.gameBoard.gameGrid)
+
                 gui.updateSquares(self.gameBoard.gameGrid)
                 #print("place a ship of length: " + str(i))
                 point1 = self.getPlacement()
@@ -40,7 +41,7 @@ class HumanPlayer(object):
                     gui.updateSquares(self.gameBoard.gameGrid)
                     point2 = self.getPlacement()
                 
-                    if (self.checkValidPlacement(point2) == True):
+                    if (self.checkValidPlacement(point2) == True) and (point1 != point2):
                 
                         dif = (point1[0] - point2[0], point1[1] - point2[1])
                 
@@ -50,6 +51,9 @@ class HumanPlayer(object):
                             
                         elif ((dif[0] == 0) and (abs(dif[1]) == i-1)):
                             dir = (0, (-1 * dif[1])//abs(dif[1]))
+
+                        else:
+                            dir = (10,10)
                          
                         validPlacement = True   
                         for j in range(i):
@@ -77,7 +81,10 @@ class HumanPlayer(object):
 
                 #self.gameBoard.placeShip(self.shipPlacement(shipLengths[i]))
 
-        self.gameBoard.gameGrid = self.gameBoard.makeGameGrid(10,10)
+        #self.gameBoard.gameGrid = self.gameBoard.makeGameGrid(10,10)
+        for k in self.gameBoard.shipList:
+            for j in k.coordinates:
+                self.gameBoard.changePoint(j, 4)
 
     def updateInfo(self, move, result):
         pass

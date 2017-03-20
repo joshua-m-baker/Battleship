@@ -2,7 +2,7 @@ import pygame
 from GameTile import GameTile
 
 class BoardGui(object):
-    def __init__(self, screen, domainRect, name):
+    def __init__(self, screen, domainRect, name, marginPercent = 20):
         pygame.font.init()
         self.font = pygame.font.Font(None, 30)
 
@@ -38,7 +38,7 @@ class BoardGui(object):
             self.bottomBound = self.bottomBound - (dif/2)
 
         #the total margin is 10% of the total span, split accross both sides (*/2)
-        self.margin = ((self.rightBound - self.leftBound)/2) * (20/100)
+        self.margin = ((self.rightBound - self.leftBound)/2) * (marginPercent/100)
         self.span = self.rightBound - 2*self.margin - self.leftBound
 
         self.startingPoint = (self.leftBound + self.margin, self.topBound + self.margin)
