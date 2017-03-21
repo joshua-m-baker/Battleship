@@ -15,9 +15,9 @@ class GameLoop(object):
         self.boardGui = GameGui()
         #self.placementGui = BoardGui()
         #self.placementGui = PlacementGui()
-        self.player2 = ComputerPlayer("Player 2")
+        self.player2 = ComputerPlayer(2)
         #self.human = ComputerPlayer("Player 1")
-        self.player1 = HumanPlayer("Player 1", self.boardGui)
+        self.player1 = HumanPlayer(1, self.boardGui)
 
         self.shipLengths = [2, 3, 3, 4, 5]
         self.numberOfShips = len(self.shipLengths)
@@ -65,7 +65,8 @@ class GameLoop(object):
 
             for i in otherBoard.shipList:
                 if (i.checkSunk() == True):
-                    print("You sunk a ship at " + str( move))
+                    #print("You sunk a ship at " + str( move))
+                    self.boardGui.drawInfo(self.current.getName() + " sunk a ship!")
                     self.current.updateInfo(move, 3)
                     ship = i
                     otherBoard.shipList.remove(i)
@@ -73,7 +74,8 @@ class GameLoop(object):
             
 
             if (otherBoard.checkWin() == True):
-                print(self.current.name + " wins!")
+                #print(self.current.name + " wins!")
+                self.boardGui.drawInfo(self.current.getName() + " wins!")
                 keepGoing = False
             else:
                 

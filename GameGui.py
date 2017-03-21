@@ -11,6 +11,8 @@ class GameGui(AbstractGui):
         self.gameBoards = []
         self.menuButtons = []
 
+        self.lastInfo = ""
+
         width = self.screen.get_width()
         height = self.screen.get_height()
 
@@ -18,8 +20,8 @@ class GameGui(AbstractGui):
         self.menuButtons.append(self.menuButton)
 
         
-        self.player1Board = BoardGui(self.screen, pygame.Rect((0,0), (width//2, height)), "Player 1")
-        self.player2Board = BoardGui(self.screen, pygame.Rect((width//2, 0), (width//2, height)), "Player 2")
+        self.player1Board = BoardGui(self.screen, pygame.Rect((0,20), (width//2, height)), "Player 1")
+        self.player2Board = BoardGui(self.screen, pygame.Rect((width//2, 20), (width//2, height)), "Player 2")
         self.gameBoards.append(self.player1Board)
         self.gameBoards.append(self.player2Board)
 
@@ -36,6 +38,7 @@ class GameGui(AbstractGui):
         self.player1Board.drawBoard(p1Boardlist)
         self.player2Board.drawBoard(p2Boardlist)
         self.menuButton.draw()
+        self.drawInfo(self.lastInfo)
         pygame.display.flip()
 
     def updateSquares(self, p1Boardlist, p2Boardlist):
@@ -43,6 +46,7 @@ class GameGui(AbstractGui):
         self.lastP2Boardlist = p2Boardlist
         self.player1Board.drawSquares(p1Boardlist)
         self.player2Board.drawSquares(p2Boardlist)
+        self.drawInfo(self.lastInfo)
         pygame.display.flip()
     
     def toggleMenu(self):
@@ -54,6 +58,10 @@ class GameGui(AbstractGui):
     def closeMenu(self):
         self.clearScreen()
         self.drawBoard(self.lastP1Boardlist, self.lastP2Boardlist)
+
+    def drawInfo(self, info):
+        self.lastInfo = info
+        self.drawText(info)
 
     def performAction(self, f):
         f()

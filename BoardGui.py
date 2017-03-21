@@ -97,8 +97,4 @@ class BoardGui(object):
 
 
 
-
-
-
-
         

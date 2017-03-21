@@ -14,8 +14,9 @@ class PlacementGui(AbstractGui):
 
         self.menuButtons = []
      
-        self.boardGui = BoardGui(self.screen, pygame.Rect((0,0), (self.screen.get_width(), self.screen.get_height())), "Player 1", 35)
-        #self.board2 = BoardGui(self.screen, pygame.Rect((320,0), (320, 480)))
+        #self.boardGui = BoardGui(self.screen, pygame.Rect((0,0), (self.screen.get_width(), self.screen.get_height())), "Player 1", 35)
+        self.boardGui = BoardGui(self.screen, pygame.Rect((0,20), (self.screen.get_width(), self.screen.get_height())), "Player 1", 35)
+        
 
         #self.makeSquares()
         self.addMenuButtons()
@@ -33,6 +34,7 @@ class PlacementGui(AbstractGui):
             print("Empty boardlist")
         self.boardGui.drawBoard(boardlist)
         self.menuButton.draw()
+        self.drawInfo(self.lastInfo)
         pygame.display.flip()
 
     def updateSquares(self, boardlist):
@@ -41,10 +43,12 @@ class PlacementGui(AbstractGui):
         else:
             print("Empty boardlist")
         self.boardGui.drawSquares(boardlist)
+        self.drawInfo(self.lastInfo)
         pygame.display.flip()
 
     def drawInfo(self, info):
         self.lastInfo = info
+        self.drawText("Place a ship of length {}".format(info))
 
         #self.screen.fill(blue)
 
@@ -69,6 +73,7 @@ class PlacementGui(AbstractGui):
     def closeMenu(self):
         self.clearScreen()
         self.drawBoard(self.lastBoardList)
+        self.updateSquares(self.lastBoardList)
 
     def performAction(self, f):
         f()

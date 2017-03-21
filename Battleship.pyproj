@@ -52,13 +52,7 @@
     <Compile Include="MenuButton.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="_MenuButton.py">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="tester.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="_BoardGui.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="GameLoop.py">
@@ -68,9 +62,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ComputerPlayer.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="_GameTile.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Ship.py">

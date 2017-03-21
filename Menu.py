@@ -26,7 +26,7 @@ class Menu(object):
         buttonX = (self.screenWidth//2) - (buttonWidth // 2)
         buttonY = (self.screenHeight//2) - (buttonHeight //2)
         point = (buttonX, buttonY)
-        quitButton = MenuButton(pygame.Rect(point, (200, 50)), self.screen, lambda : self.quit())
+        quitButton = MenuButton(pygame.Rect(point, (200, 50)), self.screen, lambda : self.quit(), "Quit")
         self.menuButtons.append(quitButton)
 
     def drawButtons(self):

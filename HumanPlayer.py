@@ -1,6 +1,7 @@
 from GameBoard import GameBoard
 import random
 from PlacementGui import PlacementGui
+import pygame
 
 class HumanPlayer(object):
     def __init__(self, num, gui):
@@ -28,6 +29,7 @@ class HumanPlayer(object):
                 #gui.drawSquares(self.gameBoard.gameGrid)
 
                 gui.updateSquares(self.gameBoard.gameGrid)
+                gui.drawInfo(i)
                 #print("place a ship of length: " + str(i))
                 point1 = self.getPlacement()
                 if (self.checkValidPlacement(point1) == True):
